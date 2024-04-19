@@ -59,7 +59,7 @@ __STEP 5__: Create the full certificate chain by chaining the self-signed cert w
 echo cert.crt > ssl-cert.crt
 ```
 ```bash
-echo ca-cert.crt > ssl-cert.crt
+echo ca-cert.crt >> ssl-cert.crt
 ```
 
 ### Chained in one step we have
@@ -68,8 +68,8 @@ openssl genrsa -out cert.key 4096 && \
 openssl req -new -sha256 -subj "/CN=<<servername>>" -key cert.key -out cert.csr && \
 echo "subjectAltName=DNS:<<servername>>,IP:<<serverIP>>" >> extfile.cnf && \
 openssl x509 -req -days 3650 -in cert.csr -CA ca-cert.crt -CAkey ca-cert.key --extfile \
-extfile.cnf -out cert.crt -CAcreateserial && echo cert.crt > ssl-cert.crt && \
-echo ca-cert.crt > ssl-cert.crt
+extfile.cnf -out cert.crt -CAcreateserial && cat cert.crt > ssl-cert.crt && \
+cat ca-cert.crt >> ssl-cert.crt
 ```
 
 ## Important final outputs from the above section are:
